@@ -1,6 +1,5 @@
 """Script d'installation automatique des dépendances requises."""
 
-import subprocess
 import os
 import pandas as pd
 import geopandas as gpd
@@ -12,11 +11,10 @@ print("directory actuel :", os.getcwd())
 def load_data():
     """Load data from the CSV files referundum/regions/departments."""
     ref = pd.read_csv(os.getcwd() +
-                      "/2024-assignment-pandas/data/referendum.csv", sep=";")
+                      "/data/referendum.csv", sep=";")
     regions = pd.read_csv(os.getcwd() +
-                          "/2024-assignment-pandas/data/regions.csv", sep=",")
+                          "/data/regions.csv", sep=",")
     departements = pd.read_csv(os.getcwd() +
-                               "/2024-assignment-pandas" +
                                "/data/departments.csv",
                                sep=",")
     return ref, regions, departements
@@ -78,7 +76,6 @@ def compute_referendum_result_by_regions(ref_and_areas):
 def plot_referendum_map(referendum_result_by_regions):
     """Load data from the CSV files referundum/regions/departments."""
     geographic_data = gpd.read_file(os.getcwd() +
-                                    "/2024-assignment-pandas" +
                                     "/data/regions.geojson")
     geographic_data.index = geographic_data["code"]
     geographic_data = geographic_data.drop("code", axis=1)
