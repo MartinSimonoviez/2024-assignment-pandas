@@ -1,10 +1,13 @@
+"""Script d'installation automatique des dépendances requises."""
+
+import subprocess
 import os
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 
 print("directory actuel :", os.getcwd())
-
+subprocess.check_call(["pip", "install", "geopandas"])
 
 def load_data():
     """Load data from the CSV files referundum/regions/departments."""
@@ -20,6 +23,7 @@ def load_data():
 
 
 def merge_regions_and_departments(regions, departements):
+    """Load data from the CSV files referundum/regions/departments."""
     regions.columns = ["id", "region_code", "name_reg", "slug"]
     departements.columns = ["id", "region_code",
                             "Department code", "name_dep", "slug"]
@@ -30,6 +34,7 @@ def merge_regions_and_departments(regions, departements):
 
 
 def merge_ref_and_areas(ref, reg_and_dep):
+    """Load data from the CSV files referundum/regions/departments."""
     liste_domtom = ['01', '02', '03', '04', '06', 'COM']
     liste_refer_domtom = ['ZA', 'ZB', 'ZC', 'ZD',
                           'ZM', 'ZN', 'ZP', 'ZS', 'ZW', 'ZX', 'ZZ']
@@ -53,6 +58,7 @@ def merge_ref_and_areas(ref, reg_and_dep):
 
 
 def compute_ref_result_by_regions(ref_and_areas):
+    """Load data from the CSV files referundum/regions/departments."""
     reg_area_intermed = ref_and_areas[
                                       ['region_code', 'Registered',
                                        'Abstentions',
@@ -70,6 +76,7 @@ def compute_ref_result_by_regions(ref_and_areas):
 
 
 def plot_referendum_map(referendum_result_by_regions):
+    """Load data from the CSV files referundum/regions/departments."""
     geographic_data = gpd.read_file(os.getcwd() +
                                     "/2024-assignment-pandas" +
                                     "/data/regions.geojson")
