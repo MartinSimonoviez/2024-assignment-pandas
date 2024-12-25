@@ -11,11 +11,11 @@ print("directory actuel :", os.getcwd())
 def load_data():
     """Load data from the CSV files referundum/regions/departments."""
     ref = pd.read_csv(os.getcwd() +
-                      "/data/referendum.csv", sep=";")
+                      "/2024-assignment-pandas/data/referendum.csv", sep=";")
     regions = pd.read_csv(os.getcwd() +
-                          "/data/regions.csv", sep=",")
+                          "/2024-assignment-pandas/data/regions.csv", sep=",")
     departements = pd.read_csv(os.getcwd() +
-                               "/data/departments.csv",
+                               "/2024-assignment-pandas/data/departments.csv",
                                sep=",")
     return ref, regions, departements
 
@@ -48,42 +48,36 @@ def merge_referendum_and_areas(ref, reg_and_dep):
                                      if ref.iloc[i, 0] not in
                                      liste_refer_domtom]]
     for k in range(1, 10):
-        intermed = referendum_metropole['Department code'].replace(str(k),
-                                                                   '0'+str(k))
-        referendum_metropole['Department code'] = intermed
-    reg_and_dep.columns = ['code_reg', 'name_reg', 'Department code', 'name_dep']
+        referendum_metropole['Department code'] = referendum_metropole['Department code'].replace(str(k),
+                                                                       '0'+str(k))
+    reg_dep_metropole = reg_dep_metropole.rename(columns={'code_dep': 'Department code'})
     return_final = pd.DataFrame(pd.merge(reg_dep_metropole, referendum_metropole,
-                                how='right', on=["Department code"]))
-    return_final.columns = ['Department code', 'Department name', 'Town code',
-                            'Town name', 'Registered', 'Abstentions', 'Null',
-                            'Choice A', 'Choice B', 'code_dep', 'code_reg',
-                            'name_reg', 'name_dep']
-    return pd.DataFrame(pd.merge(reg_dep_metropole, referendum_metropole,
-                        how='right', on=["Department code"]))
+                                how='right', on=["Department code"]))                         
+    return return_final
 
 
 def compute_referendum_result_by_regions(ref_and_areas):
     """Load data from the CSV files referundum/regions/departments."""
     reg_area_intermed = ref_and_areas[
-                                      ['region_code', 'Registered',
+                                      ['code_reg', 'Registered',
                                        'Abstentions',
                                        'Null', 'Choice A', 'Choice B']
-                                        ].groupby('region_code' +
+                                        ].groupby('code_reg' +
                                                   '').sum(
                                                           ).reset_index()
-    reg_name_intermed = ref_and_areas[["region_code",
+    reg_name_intermed = ref_and_areas[["code_reg",
                                        "name_reg"]].drop_duplicates()
     reg_area_final = pd.merge(reg_name_intermed,
-                              reg_area_intermed, on=["region_code"])
-    reg_area_final.index = reg_area_final["region_code"]
-    reg_area_final = reg_area_final.drop("region_code", axis=1)
+                              reg_area_intermed, on=["code_reg"])
+    reg_area_final.index = reg_area_final["code_reg"]
+    reg_area_final = reg_area_final.drop("code_reg", axis=1)
     return reg_area_final
 
 
 def plot_referendum_map(referendum_result_by_regions):
     """Load data from the CSV files referundum/regions/departments."""
     geographic_data = gpd.read_file(os.getcwd() +
-                                    "/data/regions.geojson")
+                                    "/2024-assignment-pandas/data/regions.geojson")
     geographic_data.index = geographic_data["code"]
     geographic_data = geographic_data.drop("code", axis=1)
     ref_results = pd.merge(referendum_result_by_regions,
