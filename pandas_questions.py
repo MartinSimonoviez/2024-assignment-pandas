@@ -54,7 +54,7 @@ def merge_referendum_and_areas(ref, reg_and_dep):
     return_final = pd.DataFrame(pd.merge(reg_dep_metropole, referendum_metropole,
                                 right_on = ['Department code'],
                                 left_on = ['code_dep'],
-                                how='right', on=["Department code"]))                  
+                                how='right'))                  
     return return_final
 
 
