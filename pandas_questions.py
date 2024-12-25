@@ -22,13 +22,13 @@ def load_data():
 
 def merge_regions_and_departments(regions, departements):
     """Load data from the CSV files referundum/regions/departments."""
-    regions.columns = ["id", "region_code", "name_reg", "slug"]
-    departements.columns = ["id", "region_code",
-                            "Department code", "name_dep", "slug"]
+    regions.columns = ["id", "code_reg", "name_reg", "slug"]
+    departements.columns = ["id", "code_reg",
+                            "code_dep", "name_dep", "slug"]
     return pd.DataFrame(pd.merge(regions.iloc[:, 1:3],
                         departements.iloc[:, 1:4],
                         how='right',
-                        on=["region_code"]))
+                        on=["code_reg"]))
 
 
 def merge_referendum_and_areas(ref, reg_and_dep):
@@ -51,6 +51,13 @@ def merge_referendum_and_areas(ref, reg_and_dep):
         intermed = referendum_metropole['Department code'].replace(str(k),
                                                                    '0'+str(k))
         referendum_metropole['Department code'] = intermed
+    reg_and_dep.columns = ['code_reg', 'name_reg', 'Department code', 'name_dep']
+    return_final = pd.DataFrame(pd.merge(reg_dep_metropole, referendum_metropole,
+                                how='right', on=["Department code"]))
+    return_final.columns = ['Department code', 'Department name', 'Town code',
+                            'Town name', 'Registered', 'Abstentions', 'Null',
+                            'Choice A', 'Choice B', 'code_dep', 'code_reg',
+                            'name_reg', 'name_dep']
     return pd.DataFrame(pd.merge(reg_dep_metropole, referendum_metropole,
                         how='right', on=["Department code"]))
 
