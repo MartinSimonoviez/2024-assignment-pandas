@@ -38,10 +38,10 @@ def merge_regions_and_departments(regions, departements):
     regions.columns = ["id", "region_code", "name_reg", "slug"]
     departements.columns = ["id", "region_code",
                             "Department code", "name_dep", "slug"]
-    return(pd.DataFrame(pd.merge(regions.iloc[:, 1:3],
+    return pd.DataFrame(pd.merge(regions.iloc[:, 1:3],
                         departements.iloc[:, 1:4],
                         how='right',
-                        on=["region_code"])))
+                        on=["region_code"]))
 
 
 def merge_ref_and_areas(ref, reg_and_dep):
