@@ -7,7 +7,6 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 
 print("directory actuel :", os.getcwd())
-subprocess.check_call(["pip", "install", "geopandas"])
 
 
 def load_data():
@@ -58,7 +57,7 @@ def merge_referendum_and_areas(ref, reg_and_dep):
                         how='right', on=["Department code"]))
 
 
-def compute_ref_result_by_regions(ref_and_areas):
+def compute_referendum_result_by_regions(ref_and_areas):
     """Load data from the CSV files referundum/regions/departments."""
     reg_area_intermed = ref_and_areas[
                                       ['region_code', 'Registered',
@@ -105,7 +104,7 @@ if __name__ == "__main__":
                                                referendum,
                                                regions_and_departments
                                                )
-    referendum_results = compute_ref_result_by_regions(
+    referendum_results = compute_referendum_result_by_regions(
                                                        referendum_and_areas
                                                        )
     print(referendum_results)
