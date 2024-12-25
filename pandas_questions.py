@@ -1,13 +1,3 @@
-"""Plotting referendum results in pandas.
-
-In short, we want to make beautiful map to report results of a referendum. In
-some way, we would like to depict results with something similar to the maps
-that you can find here:
-https://github.com/x-datascience-datacamp/datacamp-assignment-pandas/blob/main/example_map.png
-
-To do that, you will load the data as pandas.DataFrame, merge the info and
-aggregate them by regions and finally plot them on a map using `geopandas`.
-"""
 import os
 import pandas as pd
 import geopandas as gpd
@@ -30,11 +20,6 @@ def load_data():
 
 
 def merge_regions_and_departments(regions, departements):
-    """Merge regions and departments in one DataFrame.
-
-    The columns in the final DataFrame should be:
-    ['code_reg', 'name_reg', 'code_dep', 'name_dep']
-    """
     regions.columns = ["id", "region_code", "name_reg", "slug"]
     departements.columns = ["id", "region_code",
                             "Department code", "name_dep", "slug"]
@@ -45,11 +30,6 @@ def merge_regions_and_departments(regions, departements):
 
 
 def merge_ref_and_areas(ref, reg_and_dep):
-    """Merge referendum and regions_and_departments in one DataFrame.
-
-    You can drop the lines relative to DOM-TOM-COM departments, and the
-    french living abroad.
-    """
     liste_domtom = ['01', '02', '03', '04', '06', 'COM']
     liste_refer_domtom = ['ZA', 'ZB', 'ZC', 'ZD',
                           'ZM', 'ZN', 'ZP', 'ZS', 'ZW', 'ZX', 'ZZ']
@@ -73,11 +53,6 @@ def merge_ref_and_areas(ref, reg_and_dep):
 
 
 def compute_ref_result_by_regions(ref_and_areas):
-    """Return a table with the absolute count for each region.
-
-    The return DataFrame should be indexed by `code_reg` and have columns:
-    ['name_reg', 'Registered', 'Abstentions', 'Null', 'Choice A', 'Choice B']
-    """
     reg_area_intermed = ref_and_areas[
                                       ['region_code', 'Registered',
                                        'Abstentions',
@@ -95,14 +70,6 @@ def compute_ref_result_by_regions(ref_and_areas):
 
 
 def plot_referendum_map(referendum_result_by_regions):
-    """Plot a map with the results from the referendum.
-
-    * Load the geographic data with geopandas from `regions.geojson`.
-    * Merge these info into `referendum_result_by_regions`.
-    * Use the method `GeoDataFrame.plot` to display the result map. The results
-      should display the rate of 'Choice A' over all expressed ballots.
-    * Return a gpd.GeoDataFrame with a column 'ratio' containing the results.
-    """
     geographic_data = gpd.read_file(os.getcwd() +
                                     "/2024-assignment-pandas" +
                                     "/data/regions.geojson")
@@ -122,7 +89,6 @@ def plot_referendum_map(referendum_result_by_regions):
 
 
 if __name__ == "__main__":
-
     referendum, df_reg, df_dep = load_data()
     regions_and_departments = merge_regions_and_departments(
                                                             df_reg, df_dep
