@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 print("directory actuel :", os.getcwd())
 subprocess.check_call(["pip", "install", "geopandas"])
 
+
 def load_data():
     """Load data from the CSV files referundum/regions/departments."""
     ref = pd.read_csv(os.getcwd() +
@@ -33,7 +34,7 @@ def merge_regions_and_departments(regions, departements):
                         on=["region_code"]))
 
 
-def merge_ref_and_areas(ref, reg_and_dep):
+def merge_referendum_and_areas(ref, reg_and_dep):
     """Load data from the CSV files referundum/regions/departments."""
     liste_domtom = ['01', '02', '03', '04', '06', 'COM']
     liste_refer_domtom = ['ZA', 'ZB', 'ZC', 'ZD',
@@ -100,7 +101,7 @@ if __name__ == "__main__":
     regions_and_departments = merge_regions_and_departments(
                                                             df_reg, df_dep
                                                             )
-    referendum_and_areas = merge_ref_and_areas(
+    referendum_and_areas = merge_referendum_and_areas(
                                                referendum,
                                                regions_and_departments
                                                )
