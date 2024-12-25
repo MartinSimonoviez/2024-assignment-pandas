@@ -48,13 +48,16 @@ def merge_referendum_and_areas(ref, reg_and_dep):
                                      if ref.iloc[i, 0] not in
                                      liste_refer_domtom]]
     for k in range(1, 10):
-        referendum_metropole['Department code'] = referendum_metropole[
-                                                                       'Department code'].replace(str(k),
-                                                                       '0'+str(k))
-    return_final = pd.DataFrame(pd.merge(reg_dep_metropole, referendum_metropole,
-                                right_on = ['Department code'],
-                                left_on = ['code_dep'],
-                                how='right'))                  
+        string = 'Department code'
+        intermed = referendum_metropole[string].replace(
+                                                     str(k),
+                                                     '0'+str(k))
+    referendum_metropole['Department code'] = intermed
+    return_final = pd.DataFrame(pd.merge(reg_dep_metropole,
+                                         referendum_metropole,
+                                         right_on=['Department code'],
+                                         left_on=['code_dep'],
+                                         how='right'))
     return return_final
 
 
